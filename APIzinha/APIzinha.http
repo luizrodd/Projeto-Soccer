@@ -1,0 +1,6 @@
+@APIzinha_HostAddress = http://localhost:5250
+
+GET {{APIzinha_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
