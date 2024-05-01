@@ -15,6 +15,7 @@ builder.Services.AddDbContext<TemplateContext>(opt =>
 builder.Services.AddScoped<INewsService, NewsService>();
 builder.Services.AddScoped<ITeamService, TeamService>();
 builder.Services.AddScoped<IGameService, GameService>();
+builder.Services.AddScoped<IChampionshipService, ChampionshipService>();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 

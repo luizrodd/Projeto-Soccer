@@ -23,7 +23,6 @@ namespace Service
                TeamTwoId = s.TeamTwoId,
                Image = s.Image,
                Name = s.Name,
-               NewsList = s.NewsList,
                TeamOneId = s.TeamOneId,
            }).ToListAsync();
 
