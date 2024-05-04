@@ -9,10 +9,11 @@ namespace Service.DTOs
 {
     public class GameDTO
     {
+        public Guid Id { get; set; }
         public DateTime Date { get; set; }
         public string Place { get; set; }
-        public int ResultTeamOne { get; set; }
-        public int ResultTeamTwo { get; set; }
+        public int? ResultTeamOne { get; set; }
+        public int? ResultTeamTwo { get; set; }
         public GameStatusDTO GameStatus { get; set; }
         public Guid ChampionshipId { get; set; }
         public TeamDTO TeamOne { get; set; }

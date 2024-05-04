@@ -15,23 +15,6 @@ namespace Service
     {
         private readonly TemplateContext _data = data;
 
-        public async Task<bool> Create(string title, string description, string image, DateTime date, string source, Guid teamId)
-        {
-            News news = new News()
-            {
-                Date = date,
-                Title = title,
-                Description = description,
-                Image = image,
-                Source = source,
-                TeamId = teamId
-            };
-
-            await _data.News.AddAsync(news);
-            _data.SaveChanges();
-            return true;
-        }
-
         public async Task<List<NewsDTO>> GetAll()
         {
             var news = await _data.News.Select(s => new NewsDTO()
@@ -46,10 +29,49 @@ namespace Service
 
             return news;
         }
-
-        public Task<bool> Update(Guid id, string title, string description, string image, DateTime date, string source, Guid teamId)
+        public async Task<bool> Create(NewsDTO news)
         {
-            throw new NotImplementedException();
+            var createNews = new News(news.Title, news.Description, news.Image, news.Source, news.TeamId) { Date = news.Date };
+
+            await _data.News.AddAsync(createNews);
+            _data.SaveChanges();
+            return true;
+        }
+
+        public async Task<bool> Update(NewsDTO news)
+        {
+            var id = news.Id;
+
+            var newsToUpdate = await _data.News.FindAsync(id);
+
+            if (newsToUpdate == null)
+            {
+                return false;
+            }
+
+            newsToUpdate.Date = news.Date;
+            newsToUpdate.Title = news.Title;
+            newsToUpdate.Description = news.Description;
+            newsToUpdate.Image = news.Image;
+            newsToUpdate.Source = news.Source;
+            newsToUpdate.TeamId = news.TeamId;
+
+            await _data.SaveChangesAsync();
+
+            return true;
+        }
+
+        public async Task<bool> Delete(Guid id)
+        {
+            var newsToDelete = await _data.News.FindAsync(id);
+
+            if (newsToDelete == null)
+                return false;
+
+            _data.News.Remove(newsToDelete);
+            await _data.SaveChangesAsync();
+
+            return true;
         }
     }
 }

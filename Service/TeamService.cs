@@ -20,13 +20,50 @@ namespace Service
            var teams = await _data.Teams.Select(s => new TeamDTO()
            {
                ChampionshipId = s.ChampionshipId,
-               TeamTwoId = s.TeamTwoId,
                Image = s.Image,
                Name = s.Name,
-               TeamOneId = s.TeamOneId,
            }).ToListAsync();
 
            return teams;
+        }
+        public async Task<bool> Create(TeamDTO team)
+        {
+            var createTeam = new Team(team.Name, team.Image, team.ChampionshipId);
+
+            await _data.Teams.AddAsync(createTeam);
+            _data.SaveChanges();
+            return true;
+        }
+
+        public async Task<bool> Update(TeamDTO team)
+        {
+            var updatedTeam = await _data.Teams.FindAsync(team.Id);
+
+            if (updatedTeam == null)
+            {
+                return false;
+            }
+
+            updatedTeam.Name = team.Name;
+            updatedTeam.Image = team.Image;
+            updatedTeam.ChampionshipId = team.ChampionshipId;
+
+
+            await _data.SaveChangesAsync();
+
+            return true;
+        }
+
+        public async Task<bool> Delete(Guid id)
+        {
+            var deleteNews = await _data.News.FindAsync(id);
+            if (deleteNews == null)
+                return false;
+
+            _data.News.Remove(deleteNews);
+            await _data.SaveChangesAsync();
+
+            return true;
         }
     }
 }

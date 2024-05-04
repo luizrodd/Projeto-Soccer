@@ -27,15 +27,12 @@ namespace Service
                     ChampionshipId = y.ChampionshipId,
                     Image = y.Image,
                     Name = y.Name,
-                    TeamOneId = y.TeamOneId,
-                    TeamTwoId = y.TeamTwoId,
                 }).ToList(),    
                 GamesList = x.GamesList.Select(y => new GameDTO()
                 {
                     Date = y.Date,
                     GameStatus = new GameStatusDTO()
                     {
-                        GameId = y.GameStatus.GameId,
                         Type = y.GameStatus.Type
                     },
                     ChampionshipId = y.Id,
@@ -46,18 +43,60 @@ namespace Service
                     {
                         Image = y.TeamOne.Image,
                         Name = y.TeamOne.Name,
-                        TeamOneId = y.TeamOne.Id,
                     },
                     TeamTwo = new TeamDTO()
                     {
                         Image = y.TeamTwo.Image,
                         Name = y.TeamTwo.Name,
-                        TeamTwoId = y.TeamTwo.Id,
                     }
                 }).ToList()
             }).ToListAsync();
 
             return championship;
+        }
+        public async Task<bool> Create(ChampionshipDTO championshipDTO)
+        {
+
+            var championship = new Championship(championshipDTO.Name, championshipDTO.Image, championshipDTO.Rounds)
+            {
+                GamesList = championshipDTO.GamesList.Select(x => new Game(x.Date, x.Place, x.ResultTeamOne, x.ResultTeamTwo, new GameStatus() { Type = x.GameStatus.Type }, x.ChampionshipId, new Team(x.TeamOne.Name, x.TeamOne.Image, x.TeamOne.ChampionshipId), new Team(x.TeamTwo.Name, x.TeamTwo.Image, x.TeamTwo.ChampionshipId))).ToList(),
+
+                TeamsList = championshipDTO.TeamsList.Select(x => new Team(x.Name, x.Image, x.ChampionshipId)).ToList()
+                 
+            };
+            _data.Championships.Add(championship);
+            await _data.SaveChangesAsync();
+            return true;
+
+        }
+        public async Task<bool> Update(ChampionshipDTO championshipDTO)
+        {
+            var id = championshipDTO.Id;
+
+            var championshipToUpdate = await _data.Championships.FindAsync(id);
+
+            if (championshipToUpdate == null)
+            {
+                return false;
+            }
+            championshipToUpdate.Name = championshipDTO.Name;
+            championshipToUpdate.Image = championshipDTO.Image;
+            championshipToUpdate.Rounds = championshipDTO.Rounds;
+
+            await _data.SaveChangesAsync();
+
+            return true;
+
+        }
+        public async Task<bool> Delete(Guid championshipId)
+        {
+            var delete = await _data.Championships.FindAsync(championshipId);
+            if (delete == null)
+                return false;
+
+            _data.Championships.Remove(delete);
+            await _data.SaveChangesAsync();
+            return true;
         }
     }
 }

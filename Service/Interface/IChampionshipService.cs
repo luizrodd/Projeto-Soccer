@@ -10,5 +10,8 @@ namespace Service.Interface
     public interface IChampionshipService
     {
         Task<List<ChampionshipDTO>> GetAll();
+        Task<bool> Create(ChampionshipDTO championshipDTO);
+        Task<bool> Update(ChampionshipDTO championshipDTO);
+        Task<bool> Delete(Guid championshipId);
     }
 }

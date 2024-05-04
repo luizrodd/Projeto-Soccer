@@ -9,6 +9,7 @@ namespace Service.DTOs
 {
     public class ChampionshipDTO
     {
+        public Guid Id { get; set; }
         public string Name { get; set; }
         public string Image { get; set; }
         public int Rounds { get; set; }

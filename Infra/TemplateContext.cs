@@ -45,8 +45,12 @@ namespace Infra
             modelBuilder.Entity<Game>().HasKey(p => p.Id);
             modelBuilder.Entity<Game>().Property(p => p.Id).IsRequired().ValueGeneratedOnAdd();
             modelBuilder.Entity<Game>().Property(p => p.Place).IsRequired();
-            modelBuilder.Entity<Game>().Property(p => p.ResultTeamOne).HasMaxLength(2);
-            modelBuilder.Entity<Game>().Property(p => p.ResultTeamTwo).HasMaxLength(2);
+            modelBuilder.Entity<Game>().Property(p => p.ResultTeamOne).HasMaxLength(2).IsRequired();
+            modelBuilder.Entity<Game>().Property(p => p.GameStatus).IsRequired();
+            modelBuilder.Entity<Game>().Property(p => p.ResultTeamTwo).HasMaxLength(2).IsRequired();
+            modelBuilder.Entity<Game>().Property(p => p.ChampionshipId).IsRequired();
+            modelBuilder.Entity<Game>().Property(p => p.TeamOne).IsRequired();
+            modelBuilder.Entity<Game>().Property(p => p.TeamTwo).IsRequired();
 
             modelBuilder.Entity<Championship>().HasKey(p => p.Id);
             modelBuilder.Entity<Championship>().Property(p => p.Id).IsRequired().ValueGeneratedOnAdd();
@@ -67,17 +71,16 @@ namespace Infra
             modelBuilder.Entity<Game>()
                 .HasOne(x => x.TeamOne)
                 .WithOne()
-                .HasForeignKey<Team>(x => x.TeamOneId);
+                .HasForeignKey<Team>(x => x.Id);
 
             modelBuilder.Entity<Game>()
               .HasOne(x => x.TeamTwo)
               .WithOne()
-              .HasForeignKey<Team>(x => x.TeamTwoId);
+              .HasForeignKey<Team>(x => x.Id);
 
             modelBuilder.Entity<Game>()
                 .HasOne(x => x.GameStatus)
-                .WithOne()
-                .HasForeignKey<GameStatus>(x => x.GameId);
+                .WithOne();
 
             modelBuilder.Entity<Team>()
                 .HasMany(x => x.NewsList)

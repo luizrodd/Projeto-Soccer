@@ -10,5 +10,13 @@ namespace Service.Interface
     public interface IGameService
     {
         Task<List<GameDTO>> GetAll();
+        Task<bool> Create(GameDTO game);
+        Task<bool> Update(GameDTO game);
+        Task<bool> Delete(Guid id);
+
+
+
+        //retirar daqui
+        Task<TeamDTO> FindTeamById(Guid id);
     }
 }

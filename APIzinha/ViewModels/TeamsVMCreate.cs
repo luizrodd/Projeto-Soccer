@@ -1,13 +1,8 @@
-﻿using Domain.Entitites;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Service.DTOs;
 
-namespace Service.DTOs
+namespace APIzinha.ViewModels
 {
-    public class TeamDTO
+    public class TeamsVMCreate
     {
         public Guid Id { get; set; }
         public string Name { get; set; }
