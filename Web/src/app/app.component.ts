@@ -1,14 +1,15 @@
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { HeaderComponent } from "./components/header/header.component";
-import { BannerComponent } from "./components/banner/banner.component";
+import { UserComponent } from './components/user/user.component';
+import { AngularFirestoreModule } from '@angular/fire/compat/firestore';
+import { HttpClientModule } from '@angular/common/http';
 
 @Component({
-    selector: 'app-root',
-    standalone: true,
-    templateUrl: './app.component.html',
-    styleUrl: './app.component.css',
-    imports: [RouterOutlet, HeaderComponent, BannerComponent]
+  selector: 'app-root',
+  standalone: true,
+  imports: [RouterOutlet, HttpClientModule, UserComponent, AngularFirestoreModule],
+  templateUrl: './app.component.html',
+  styleUrl: './app.component.css'
 })
 export class AppComponent {
   title = 'Web';
