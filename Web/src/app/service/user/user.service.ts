@@ -1,31 +1,30 @@
-import { Injectable, inject } from '@angular/core';
-import { AngularFireDatabase, AngularFireList } from '@angular/fire/compat/database';
-import {
-  Firestore,
-  addDoc,
-  collection,
-  collectionData,
-  deleteDoc,
-  doc,
-  getDoc,
-  getDocs,
-  query,
-  updateDoc,
-  where,
-} from '@angular/fire/firestore';
+import { Injectable } from '@angular/core';
+import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { Observable } from 'rxjs';
-const PATH = 'user';
 
 @Injectable({
   providedIn: 'root',
 })
 export class UserService {
+  constructor(private firestore: AngularFirestore) { }
 
-  private _firestore = inject(Firestore);
+  getUsers(): Observable<any[]> {
+    return this.firestore.collection('users').valueChanges();
+  }
 
-  private _collection = collection(this._firestore, PATH);
+  getUser(userId: string): Observable<any> {
+    return this.firestore.collection('users').doc(userId).valueChanges();
+  }
 
-  getAll(){
-    return collectionData(this._collection) as Observable<any>;
+  createUser(user: any): Promise<void> {
+    return this.firestore.collection('users').add(user).then(() => {});
+  }
+
+  updateUser(userId: string, user: any): Promise<void> {
+    return this.firestore.collection('users').doc(userId).update(user);
+  }
+
+  deleteUser(userId: string): Promise<void> {
+    return this.firestore.collection('users').doc(userId).delete();
   }
 }

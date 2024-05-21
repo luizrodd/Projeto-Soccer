@@ -23,7 +23,7 @@ export const appConfig: ApplicationConfig = {
       [AngularFireModule.initializeApp(firebaseConfig)],
       AngularFireAuthModule,
       AngularFireDatabaseModule,
-      AngularFirestoreModule
+      AngularFirestoreModule,
     ),
   ],
 };
