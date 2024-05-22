@@ -1,5 +1,5 @@
 import { CUSTOM_ELEMENTS_SCHEMA, Component } from '@angular/core';
-import 'date-carousel/date-carousel.js';
+import 'date-carousel/date-carousel.js'
 import { CardComponent } from './card/card.component';
 
 @Component({

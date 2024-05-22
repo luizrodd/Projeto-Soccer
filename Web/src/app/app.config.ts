@@ -5,6 +5,7 @@ import { AngularFireAuthModule } from '@angular/fire/compat/auth';
 import { AngularFireDatabaseModule } from '@angular/fire/compat/database';
 import { AngularFirestoreModule } from '@angular/fire/compat/firestore';
 import { routes } from './app.routes';
+import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 
 const firebaseConfig = {
   databaseURL: "https://isport-team-default-rtdb.firebaseio.com",
@@ -24,6 +25,6 @@ export const appConfig: ApplicationConfig = {
       AngularFireAuthModule,
       AngularFireDatabaseModule,
       AngularFirestoreModule,
-    ),
+    ), provideAnimationsAsync(),
   ],
 };

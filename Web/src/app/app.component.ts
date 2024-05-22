@@ -4,11 +4,14 @@ import { UserComponent } from './components/user/user.component';
 import { AngularFirestoreModule } from '@angular/fire/compat/firestore';
 import { HttpClientModule } from '@angular/common/http';
 import { AngularFireDatabase } from '@angular/fire/compat/database';
+import { BannerComponent } from './components/banner/banner.component';
+import { HeaderComponent } from './components/header/header.component';
+import { ScheduleComponent } from './components/schedule/schedule.component';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, HttpClientModule, UserComponent, AngularFirestoreModule],
+  imports: [RouterOutlet, HttpClientModule, ScheduleComponent, UserComponent, AngularFirestoreModule, BannerComponent, HeaderComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })
