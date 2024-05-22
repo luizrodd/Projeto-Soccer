@@ -10,9 +10,9 @@ import {
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
-import { AuthService } from '../../../service/auth/auth.service';
+import { AuthService } from '../../service/auth/auth.service';
 import { Router } from '@angular/router';
-import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialogClose } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-login',
@@ -22,6 +22,7 @@ import { MAT_DIALOG_DATA } from '@angular/material/dialog';
     MatInputModule,
     MatButtonModule,
     ReactiveFormsModule,
+    MatDialogClose,
     CommonModule,
   ],
   templateUrl: './login.component.html',
@@ -63,6 +64,7 @@ export class LoginComponent implements OnInit {
       )
       .then((res) => {
         this.router.navigateByUrl('/');
+        window.location.reload();
       })
       .catch((error) => {
         console.log(error);
@@ -76,7 +78,7 @@ export class LoginComponent implements OnInit {
         this.loginForm.value.password
       )
       .then((res) => {
-        this.router.navigateByUrl('/');
+        window.location.reload();
       })
       .catch((error) => {
         console.log(error);

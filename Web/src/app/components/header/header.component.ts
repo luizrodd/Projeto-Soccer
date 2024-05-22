@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { LoginComponent } from '../user/login/login.component';
+import { LoginComponent } from '../login/login.component';
 import {
   MatDialog,
   MAT_DIALOG_DATA,
@@ -13,6 +13,7 @@ import {
 import { ScheduleComponent } from '../schedule/schedule.component';
 import { Observable } from 'rxjs';
 import { CommonModule } from '@angular/common';
+import { AuthService } from '../../service/auth/auth.service';
 
 @Component({
   selector: 'app-header',
@@ -23,15 +24,18 @@ import { CommonModule } from '@angular/common';
 })
 export class HeaderComponent implements OnInit{
 
-  auth = localStorage.getItem('token')
-  constructor(private router: Router, public dialog: MatDialog){}
+  token: string | null = null;
+  constructor(private router: Router, public dialog: MatDialog, private _authService: AuthService){}
+
 
   navigate(where: any){
     this.router.navigate(['/', where])
   }
 
+
+
   ngOnInit(): void {
-    console.log(this.auth)
+    this.token = localStorage.getItem('token');
   }
 
   openDialogLogin(auth: string): void {
@@ -44,5 +48,10 @@ export class HeaderComponent implements OnInit{
     dialogRef.afterClosed().subscribe(() => {
       console.log('The dialog was closed');
     });
+  }
+
+  logout(){
+    this._authService.logout();
+    this.token = null;
   }
 }

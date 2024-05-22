@@ -11,14 +11,17 @@
         <a (click)="navigate('schedule')">Jogos</a>
       </li>
       <li class="mx-2 text-white cursor-pointer hover:text-gray-400">
-        <a (click)="navigate('news')">Noticias</a>
+        <a (click)="navigate('news')" >Noticias</a>
       </li>
     </ul>
   </div>
   <div>
-    <ul (class)="auth ? 'flex' : 'flex'">
+    <ul [class]="token ? 'hidden' : 'flex'">
       <li class="mx-2 text-white" (click)="openDialogLogin('login')">Entrar</li>
-      <li class="mx-2 text-white" (click)="openDialogLogin('register')">Participe</li>
+      <li class="mx-2 text-white" (click)="openDialogLogin('register')">
+        Participe
+      </li>
     </ul>
+    <div class="mx-2 text-white" *ngIf="token" (click)="logout()">Logout</div>
   </div>
 </header>

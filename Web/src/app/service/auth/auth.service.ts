@@ -22,11 +22,17 @@ export class AuthService {
       })
       .catch((error) => {
         console.log(error);
-        this.router.navigate(['/login']);
       });
   }
 
   registerWithEmailAndPassword(email: string, password: string) {
     return this.afAuth.createUserWithEmailAndPassword(email, password);
+  }
+
+  logout() {
+    return this.afAuth.signOut().then(() => {
+      localStorage.removeItem('token');
+      this.router.navigate(['']);
+    });
   }
 }
