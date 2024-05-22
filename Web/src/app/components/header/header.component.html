@@ -16,9 +16,9 @@
     </ul>
   </div>
   <div>
-    <ul class="flex">
-      <li class="mx-2 text-white">Entrar</li>
-      <li class="mx-2 text-white">Participe</li>
+    <ul (class)="auth ? 'flex' : 'flex'">
+      <li class="mx-2 text-white" (click)="openDialogLogin('login')">Entrar</li>
+      <li class="mx-2 text-white" (click)="openDialogLogin('register')">Participe</li>
     </ul>
   </div>
 </header>

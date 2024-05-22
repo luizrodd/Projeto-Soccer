@@ -1,0 +1,45 @@
+<div class="bg-green-200 container mx-auto mt-16">
+  <div class="w-full max-w-sm mx-auto">
+    <div class="flex justify-center mb-4">
+      <button mat-button (click)="toggleForm('login')">Login</button>
+      <button mat-button (click)="toggleForm('register')">Register</button>
+    </div>
+
+    <form *ngIf="currentForm === 'login'" [formGroup]="loginForm" (ngSubmit)="login()">
+      <div class="mt-6">
+        <mat-label>Email</mat-label>
+        <input matInput type="email" formControlName="email" required />
+      </div>
+
+      <div class="mt-6">
+        <mat-label>Senha (Password)</mat-label>
+        <input matInput type="password" formControlName="password" required />
+      </div>
+
+      <button mat-raised-button type="submit" class="mt-8 block w-full">
+        Entrar (Sign In)
+      </button>
+    </form>
+
+    <form *ngIf="currentForm === 'register'" [formGroup]="registerForm" (ngSubmit)="register()">
+      <div class="mt-6">
+        <mat-label>Email</mat-label>
+        <input matInput type="email" formControlName="email" required />
+      </div>
+
+      <div class="mt-6">
+        <mat-label>Senha (Password)</mat-label>
+        <input matInput type="password" formControlName="password" required />
+      </div>
+
+      <div class="mt-6">
+        <mat-label>Confirmar Senha (Confirm Password)</mat-label>
+        <input matInput type="password" formControlName="confirmPassword" required />
+      </div>
+
+      <button mat-raised-button type="submit" class="mt-8 block w-full">
+        Cadastrar (Register)
+      </button>
+    </form>
+  </div>
+</div>

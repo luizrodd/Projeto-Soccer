@@ -7,11 +7,12 @@ import { AngularFireDatabase } from '@angular/fire/compat/database';
 import { BannerComponent } from './components/banner/banner.component';
 import { HeaderComponent } from './components/header/header.component';
 import { ScheduleComponent } from './components/schedule/schedule.component';
+import { LoginComponent } from './components/user/login/login.component';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, HttpClientModule, ScheduleComponent, UserComponent, AngularFirestoreModule, BannerComponent, HeaderComponent],
+  imports: [RouterOutlet, LoginComponent,HttpClientModule, ScheduleComponent, UserComponent, AngularFirestoreModule, BannerComponent, HeaderComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })
