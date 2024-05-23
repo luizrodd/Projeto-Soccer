@@ -10,8 +10,6 @@ import {
   MatDialogActions,
   MatDialogClose,
 } from '@angular/material/dialog';
-import { ScheduleComponent } from '../schedule/schedule.component';
-import { Observable } from 'rxjs';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../../service/auth/auth.service';
 
@@ -20,19 +18,19 @@ import { AuthService } from '../../service/auth/auth.service';
   standalone: true,
   imports: [CommonModule],
   templateUrl: './header.component.html',
-  styleUrl: './header.component.css'
+  styleUrl: './header.component.css',
 })
-export class HeaderComponent implements OnInit{
-
+export class HeaderComponent implements OnInit {
   token: string | null = null;
-  constructor(private router: Router, public dialog: MatDialog, private _authService: AuthService){}
+  constructor(
+    private router: Router,
+    public dialog: MatDialog,
+    private _authService: AuthService
+  ) {}
 
-
-  navigate(where: any){
-    this.router.navigate(['/', where])
+  navigate(where: any) {
+    this.router.navigate(['/', where]);
   }
-
-
 
   ngOnInit(): void {
     this.token = localStorage.getItem('token');
@@ -40,9 +38,9 @@ export class HeaderComponent implements OnInit{
 
   openDialogLogin(auth: string): void {
     const dialogRef = this.dialog.open(LoginComponent, {
-      data: {currentForm: auth },
+      data: { currentForm: auth },
       width: '500px',
-      height: '500px'
+      height: '500px',
     });
 
     dialogRef.afterClosed().subscribe(() => {
@@ -50,7 +48,7 @@ export class HeaderComponent implements OnInit{
     });
   }
 
-  logout(){
+  logout() {
     this._authService.logout();
     this.token = null;
   }

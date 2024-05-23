@@ -12,7 +12,11 @@ import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { AuthService } from '../../service/auth/auth.service';
 import { Router } from '@angular/router';
-import { MAT_DIALOG_DATA, MatDialogClose } from '@angular/material/dialog';
+import {
+  MAT_DIALOG_DATA,
+  MatDialog,
+  MatDialogClose,
+} from '@angular/material/dialog';
 
 @Component({
   selector: 'app-login',
@@ -22,7 +26,6 @@ import { MAT_DIALOG_DATA, MatDialogClose } from '@angular/material/dialog';
     MatInputModule,
     MatButtonModule,
     ReactiveFormsModule,
-    MatDialogClose,
     CommonModule,
   ],
   templateUrl: './login.component.html',
@@ -31,10 +34,12 @@ export class LoginComponent implements OnInit {
   currentForm: string = this.data.currentForm;
   loginForm: FormGroup;
   registerForm: FormGroup;
+  logged: boolean = false;
 
   constructor(
     private formBuilder: FormBuilder,
     private _authService: AuthService,
+    private dialogClose: MatDialog,
     private router: Router,
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {
@@ -77,11 +82,5 @@ export class LoginComponent implements OnInit {
         this.loginForm.value.email,
         this.loginForm.value.password
       )
-      .then((res) => {
-        window.location.reload();
-      })
-      .catch((error) => {
-        console.log(error);
-      });
   }
 }
