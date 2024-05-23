@@ -4,29 +4,33 @@ import { Router } from '@angular/router';
 import { Observable } from 'rxjs/internal/Observable';
 import * as firebase from 'firebase/app';
 import { User } from '../../interfaces/user.interface';
+import { from, tap, catchError, throwError } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
+
   constructor(private afAuth: AngularFireAuth, private router: Router) {}
 
   user: Observable<User> | undefined;
 
-  signWithEmailAndPassword(email: string, password: string) {
-    return this.afAuth
-      .signInWithEmailAndPassword(email, password)
-      .then((user) => {
-        localStorage['token'] = user.user?.uid;
-        this.router.navigate(['']);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+  signWithEmailAndPassword(email: string, password: string): Observable<any> {
+    return from(this.afAuth.signInWithEmailAndPassword(email, password))
+      .pipe(
+        tap((user) => {
+          localStorage.setItem('token', user.user?.uid || '');
+        }),
+        catchError((error) => {
+          console.error('Login error:', error);
+          return throwError(error);
+        })
+      );
   }
 
-  registerWithEmailAndPassword(email: string, password: string) {
-    return this.afAuth.createUserWithEmailAndPassword(email, password);
+
+  registerWithEmailAndPassword(email: string, password: string): Observable<any> {
+    return from(this.afAuth.createUserWithEmailAndPassword(email, password));
   }
 
   logout() {

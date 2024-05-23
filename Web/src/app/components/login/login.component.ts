@@ -12,11 +12,10 @@ import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { AuthService } from '../../service/auth/auth.service';
 import { Router } from '@angular/router';
-import {
-  MAT_DIALOG_DATA,
-  MatDialog,
-  MatDialogClose,
-} from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { SnackBarComponent } from '../../snackbar/snackbar.component';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-login',
@@ -27,6 +26,9 @@ import {
     MatButtonModule,
     ReactiveFormsModule,
     CommonModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatButtonModule,
   ],
   templateUrl: './login.component.html',
 })
@@ -35,12 +37,13 @@ export class LoginComponent implements OnInit {
   loginForm: FormGroup;
   registerForm: FormGroup;
   logged: boolean = false;
+  durationInSeconds = 1;
 
   constructor(
     private formBuilder: FormBuilder,
     private _authService: AuthService,
     private dialogClose: MatDialog,
-    private router: Router,
+    public _snackBar: MatSnackBar,
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {
     this.loginForm = this.formBuilder.group({
@@ -67,12 +70,14 @@ export class LoginComponent implements OnInit {
         this.registerForm.value.email,
         this.registerForm.value.password
       )
-      .then((res) => {
-        this.router.navigateByUrl('/');
-        window.location.reload();
-      })
-      .catch((error) => {
-        console.log(error);
+      .subscribe({
+        next: () => {
+          this.dialogClose.closeAll();
+          this.openSnackBar('Success', true);
+        },
+        error: (err) => {
+          this.openSnackBar('Failed', false);
+        },
       });
   }
 
@@ -82,5 +87,29 @@ export class LoginComponent implements OnInit {
         this.loginForm.value.email,
         this.loginForm.value.password
       )
+      .subscribe({
+        next: (user) => {
+          this.dialogClose.closeAll();
+          this.openSnackBar('Sucess', true);
+          window.location.reload();
+        },
+        error: (err) => {
+          this.openSnackBar('Error', false);
+        },
+      });
+  }
+
+  openSnackBar(message: string, isMessageSuccessful: boolean) {
+    const tailwindClass = isMessageSuccessful
+      ? 'text-green-500'
+      : 'text-red-400';
+
+    this._snackBar.openFromComponent(SnackBarComponent, {
+      duration: this.durationInSeconds * 1000,
+      verticalPosition: 'top',
+      horizontalPosition: 'end',
+      data: { message: message, messageTailwindClass: tailwindClass},
+      panelClass: ['w-600', 'py-20']
+    });
   }
 }

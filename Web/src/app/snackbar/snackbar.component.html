@@ -1,0 +1,10 @@
+<div class="flex">
+  <div [class]="messageTailwindClass" matSnackBarLabel>
+      {{ message }}
+  </div>
+  <div matSnackBarActions>
+      <button mat-button matSnackBarAction (click)="snackBarRef.dismissWithAction()">
+          <mat-icon class="text-white" [svgIcon]="'heroicons_solid:x-mark'"></mat-icon>
+      </button>
+  </div>
+</div>
