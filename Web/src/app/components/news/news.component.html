@@ -1,1 +1,15 @@
-<p>news works!</p>
+<div class="container mx-auto px-4 py-8">
+  <div *ngFor="let newsItem of news; index as i">
+    <div [ngClass]="i === 0 ? 'w-100 flex' : 'w-20 flex'">
+      <img [src]="newsItem.image" alt="News image" class="w-[600px] h-50 object-cover rounded">
+      <div class="px-6 py-4 flex-col flex justify-between">
+        <h3 class="font-bold text-xl mb-2">{{ newsItem.title }}</h3>
+        <p class="text-gray-700">{{ newsItem.description }}</p>
+        <div class="flex items-center mt-4">
+          <span class="text-gray-500 text-sm mr-2">Fonte: {{ newsItem.source }}</span>
+          <span class="text-gray-500 text-sm">Data: {{ newsItem.date }}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
