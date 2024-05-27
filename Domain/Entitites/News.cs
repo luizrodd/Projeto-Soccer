@@ -30,6 +30,8 @@ namespace Domain.Entitites
         public string Source { get; set; }
         public Guid TeamId { get; set; }
 
+        public Team Team { get; set; }
+
         public void ValidateDomain(string title, string desc, string source)
         {
             DomainExceptionValidation.When(title is null,

@@ -1,6 +1,5 @@
 ﻿using Domain.Entitites;
 using Infra;
-using Infra.Migrations;
 using Microsoft.EntityFrameworkCore;
 using Service.DTOs;
 using Service.Interface;
@@ -20,11 +19,10 @@ namespace Service
         {
             var games = _data.Games.Select(x => new GameDTO()
             {
-                ChampionshipId = x.ChampionshipId,
                 Date = x.Date,
                 GameStatus = new GameStatusDTO()
                 {
-                    Type = x.GameStatus.Type,
+                    Id = x.GameStatusId,
                 },
                 Place = x.Place,
                 ResultTeamOne = x.ResultTeamOne,
@@ -45,7 +43,13 @@ namespace Service
         }
         public async Task<bool> Create(GameDTO game)
         {
-            var createGame = new Game(game.Date, game.Place, game.ResultTeamOne, game.ResultTeamTwo, new GameStatus() { Type = game.GameStatus.Type }, game.ChampionshipId, new Team(game.TeamOne.Name, game.TeamOne.Image, game.TeamOne.ChampionshipId), new Team(game.TeamTwo.Name, game.TeamTwo.Image, game.TeamTwo.ChampionshipId));
+            var createGame = new Game(game.Date, game.Place,  new Team(game.TeamOne.Name, game.TeamOne.Image), new Team(game.TeamTwo.Name, game.TeamTwo.Image))
+            {
+                ResultTeamOne = game.ResultTeamOne,
+                ResultTeamTwo = game.ResultTeamTwo,
+                GameStatusId = game.GameStatus.Id,
+                ChampionshipId = game.ChampionshipId,
+            };
 
             _data.Games.Add(createGame);
             await _data.SaveChangesAsync();
@@ -67,7 +71,7 @@ namespace Service
             gameToUpdate.Place = game.Place;
             gameToUpdate.ResultTeamOne = game.ResultTeamOne;
             gameToUpdate.ResultTeamTwo = game.ResultTeamTwo;
-            gameToUpdate.GameStatus = new GameStatus() { Type = game.GameStatus.Type};
+            gameToUpdate.GameStatusId = game.GameStatus.Id;
             gameToUpdate.ChampionshipId = game.ChampionshipId;
 
             await _data.SaveChangesAsync();

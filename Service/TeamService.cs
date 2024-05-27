@@ -19,7 +19,6 @@ namespace Service
         {
            var teams = await _data.Teams.Select(s => new TeamDTO()
            {
-               ChampionshipId = s.ChampionshipId,
                Image = s.Image,
                Name = s.Name,
            }).ToListAsync();
@@ -28,7 +27,7 @@ namespace Service
         }
         public async Task<bool> Create(TeamDTO team)
         {
-            var createTeam = new Team(team.Name, team.Image, team.ChampionshipId);
+            var createTeam = new Team(team.Name, team.Image);
 
             await _data.Teams.AddAsync(createTeam);
             _data.SaveChanges();
@@ -46,7 +45,6 @@ namespace Service
 
             updatedTeam.Name = team.Name;
             updatedTeam.Image = team.Image;
-            updatedTeam.ChampionshipId = team.ChampionshipId;
 
 
             await _data.SaveChangesAsync();

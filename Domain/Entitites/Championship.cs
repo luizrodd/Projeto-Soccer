@@ -14,8 +14,8 @@ namespace Domain.Entitites
         public string Name { get; set; }
         public string Image { get; set; }
         public int Rounds { get; set; }
-        public List<Game> GamesList { get; set; } = new List<Game>();
-        public List<Team> TeamsList { get; set; } = new List<Team>();
+
+
 
         public void ValidateDomain(string name, int rounds)
         {

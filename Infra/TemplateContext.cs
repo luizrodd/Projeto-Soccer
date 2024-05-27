@@ -12,6 +12,7 @@ namespace Infra
         public DbSet<User> Users { get; set; }
         public DbSet<Team> Teams { get; set; }
         public DbSet<Game> Games { get; set; }
+        public DbSet<GameStatus> GameStatus { get; set; }
         public DbSet<Championship> Championships { get; set; }
         public DbSet<News> News { get; set; }
 
@@ -21,11 +22,10 @@ namespace Infra
 
             modelBuilder.Entity<User>().HasKey(p => p.Id);
             modelBuilder.Entity<User>().Property(p => p.Id).IsRequired().ValueGeneratedOnAdd();
-            modelBuilder.Entity<User>().Property(p => p.Name).IsRequired().HasMaxLength(40);
-            modelBuilder.Entity<User>().Property(p => p.DisplayName).IsRequired().HasMaxLength(20);
+            modelBuilder.Entity<User>().Property(p => p.Name).IsRequired().HasMaxLength(50);
+            modelBuilder.Entity<User>().Property(p => p.DisplayName).IsRequired().HasMaxLength(50);
             modelBuilder.Entity<User>().Property(p => p.Email).IsRequired().HasMaxLength(40);
             modelBuilder.Entity<User>().Property(p => p.Password).IsRequired().HasMaxLength(40);
-            modelBuilder.Entity<User>().Ignore(u => u.Password);
             modelBuilder.Entity<User>().Property(p => p.Phone).IsRequired().HasMaxLength(20);
             modelBuilder.Entity<User>().Property(p => p.isAdmin).IsRequired();
 
@@ -46,7 +46,7 @@ namespace Infra
             modelBuilder.Entity<Game>().Property(p => p.Id).IsRequired().ValueGeneratedOnAdd();
             modelBuilder.Entity<Game>().Property(p => p.Place).IsRequired();
             modelBuilder.Entity<Game>().Property(p => p.ResultTeamOne).HasMaxLength(2).IsRequired();
-            modelBuilder.Entity<Game>().Property(p => p.GameStatus).IsRequired();
+            modelBuilder.Entity<Game>().Property(p => p.GameStatusId).IsRequired();
             modelBuilder.Entity<Game>().Property(p => p.ResultTeamTwo).HasMaxLength(2).IsRequired();
             modelBuilder.Entity<Game>().Property(p => p.ChampionshipId).IsRequired();
             modelBuilder.Entity<Game>().Property(p => p.TeamOne).IsRequired();
@@ -58,34 +58,35 @@ namespace Infra
             modelBuilder.Entity<Championship>().Property(p => p.Image);
             modelBuilder.Entity<Championship>().Property(p => p.Rounds).HasMaxLength(2);
 
-            modelBuilder.Entity<Championship>()
-                .HasMany(x => x.GamesList)
-                .WithOne()
+            #region Game_Relationship
+            modelBuilder.Entity<Game>()
+                .HasOne(x => x.ChampionshipNav)
+                .WithMany()
                 .HasForeignKey(e => e.ChampionshipId);
 
-            modelBuilder.Entity<Championship>()
-               .HasMany(x => x.TeamsList)
-               .WithOne()
-               .HasForeignKey(e => e.ChampionshipId);
+            modelBuilder.Entity<Game>()
+                .HasOne(x => x.TeamOneNav)
+                .WithMany()
+                .HasForeignKey(x => x.TeamOne);
 
             modelBuilder.Entity<Game>()
-                .HasOne(x => x.TeamOne)
-                .WithOne()
-                .HasForeignKey<Team>(x => x.Id);
+                .HasOne(x => x.TeamTwoNav)
+                .WithMany()
+                .HasForeignKey(x => x.TeamTwo);
 
             modelBuilder.Entity<Game>()
-              .HasOne(x => x.TeamTwo)
-              .WithOne()
-              .HasForeignKey<Team>(x => x.Id);
+                .HasOne(x => x.GameStatusNav)
+                .WithMany()
+                .HasForeignKey(x => x.GameStatusId);
+            #endregion
 
-            modelBuilder.Entity<Game>()
-                .HasOne(x => x.GameStatus)
-                .WithOne();
+            #region News_Relationship
+            modelBuilder.Entity<News>()
+                .HasOne(x => x.Team)
+                .WithMany()
+                .HasForeignKey(n => n.TeamId);
+            #endregion
 
-            modelBuilder.Entity<Team>()
-                .HasMany(x => x.NewsList)
-                .WithOne()
-                .HasForeignKey(x => x.TeamId);
 
         }
     }

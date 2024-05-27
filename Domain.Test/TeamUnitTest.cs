@@ -20,13 +20,6 @@ namespace Domain.Test
             action.Should()
                 .NotThrow<Domain.Validation.DomainExceptionValidation>();
         }
-        [Fact(DisplayName = "Create Team with ChampionshipId null")]
-        public void CreateTeam_WithNullChampionshipId_ResultValid()
-        {
-            Action action = () => new Team("Santos", null, Guid.Empty);
-            action.Should()
-                .NotThrow<Domain.Validation.DomainExceptionValidation>();
-        }
        
 
         #endregion

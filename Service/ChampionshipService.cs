@@ -22,34 +22,7 @@ namespace Service
                 Image = x.Image,
                 Name = x.Name,
                 Rounds = x.Rounds,
-                TeamsList = x.TeamsList.Select(y => new TeamDTO()
-                {
-                    ChampionshipId = y.ChampionshipId,
-                    Image = y.Image,
-                    Name = y.Name,
-                }).ToList(),    
-                GamesList = x.GamesList.Select(y => new GameDTO()
-                {
-                    Date = y.Date,
-                    GameStatus = new GameStatusDTO()
-                    {
-                        Type = y.GameStatus.Type
-                    },
-                    ChampionshipId = y.Id,
-                    Place = y.Place,
-                    ResultTeamOne = y.ResultTeamOne,
-                    ResultTeamTwo = y.ResultTeamTwo,
-                    TeamOne = new TeamDTO()
-                    {
-                        Image = y.TeamOne.Image,
-                        Name = y.TeamOne.Name,
-                    },
-                    TeamTwo = new TeamDTO()
-                    {
-                        Image = y.TeamTwo.Image,
-                        Name = y.TeamTwo.Name,
-                    }
-                }).ToList()
+               
             }).ToListAsync();
 
             return championship;
@@ -57,13 +30,7 @@ namespace Service
         public async Task<bool> Create(ChampionshipDTO championshipDTO)
         {
 
-            var championship = new Championship(championshipDTO.Name, championshipDTO.Image, championshipDTO.Rounds)
-            {
-                GamesList = championshipDTO.GamesList.Select(x => new Game(x.Date, x.Place, x.ResultTeamOne, x.ResultTeamTwo, new GameStatus() { Type = x.GameStatus.Type }, x.ChampionshipId, new Team(x.TeamOne.Name, x.TeamOne.Image, x.TeamOne.ChampionshipId), new Team(x.TeamTwo.Name, x.TeamTwo.Image, x.TeamTwo.ChampionshipId))).ToList(),
-
-                TeamsList = championshipDTO.TeamsList.Select(x => new Team(x.Name, x.Image, x.ChampionshipId)).ToList()
-                 
-            };
+            var championship = new Championship(championshipDTO.Name, championshipDTO.Image, championshipDTO.Rounds);
             _data.Championships.Add(championship);
             await _data.SaveChangesAsync();
             return true;
