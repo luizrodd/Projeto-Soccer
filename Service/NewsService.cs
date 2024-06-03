@@ -31,7 +31,7 @@ namespace Service
         }
         public async Task<bool> Create(NewsDTO news)
         {
-            var createNews = new News(news.Title, news.Description, news.Image, news.Source, news.TeamId) { Date = news.Date };
+            var createNews = new News(news.Title, news.Image, news.Source, news.TeamId) { Date = news.Date, Description = news.Description };
 
             await _data.News.AddAsync(createNews);
             _data.SaveChanges();

@@ -41,20 +41,20 @@ namespace Service
 
             return games;
         }
-        public async Task<bool> Create(GameDTO game)
-        {
-            var createGame = new Game(game.Date, game.Place,  new Team(game.TeamOne.Name, game.TeamOne.Image), new Team(game.TeamTwo.Name, game.TeamTwo.Image))
-            {
-                ResultTeamOne = game.ResultTeamOne,
-                ResultTeamTwo = game.ResultTeamTwo,
-                GameStatusId = game.GameStatus.Id,
-                ChampionshipId = game.ChampionshipId,
-            };
+        //public async Task<bool> Create(GameDTO game)
+        //{
+        //    var createGame = new Game(game.Date, game.Place,  new Team(game.TeamOne.Name, game.TeamOne.Image), new Team(game.TeamTwo.Name, game.TeamTwo.Image))
+        //    {
+        //        ResultTeamOne = game.ResultTeamOne,
+        //        ResultTeamTwo = game.ResultTeamTwo,
+        //        GameStatusId = game.GameStatus.Id,
+        //        ChampionshipId = game.ChampionshipId,
+        //    };
 
-            _data.Games.Add(createGame);
-            await _data.SaveChangesAsync();
-            return true;
-        }
+        //    _data.Games.Add(createGame);
+        //    await _data.SaveChangesAsync();
+        //    return true;
+        //}
 
         public async Task<bool> Update(GameDTO game)
         {
@@ -101,6 +101,11 @@ namespace Service
 
             var teamDto = new TeamDTO() { Name = teamFound.Name, Image = teamFound.Image };
             return teamDto;
+        }
+
+        public Task<bool> Create(GameDTO game)
+        {
+            throw new NotImplementedException();
         }
     }
 }

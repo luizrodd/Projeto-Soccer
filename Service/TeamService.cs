@@ -27,7 +27,11 @@ namespace Service
         }
         public async Task<bool> Create(TeamDTO team)
         {
-            var createTeam = new Team(team.Name, team.Image);
+            var createTeam = new Team()
+            {
+                Name = team.Name,
+                Image = team.Image,
+            };
 
             await _data.Teams.AddAsync(createTeam);
             _data.SaveChanges();
